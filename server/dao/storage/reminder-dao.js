@@ -10,12 +10,17 @@ class ReminderDao {
     return reminder;
   }
 
-  list() {
+  listFromToday() {
+    const today = new Date().toISOString().split("T")[0];
     const files = fs.readdirSync(reminderFolderPath);
-    const reminderList = files.map((file) => {
-      const content = fs.readFileSync(path.join(reminderFolderPath, file), "utf8");
-      return JSON.parse(content);
-    });
+
+    const reminderList = files
+      .map((file) => {
+        const content = fs.readFileSync(path.join(reminderFolderPath, file), "utf8");
+        return JSON.parse(content);
+      })
+      .filter((reminder) => reminder.date >= today);
+
     return { reminderList };
   }
 
