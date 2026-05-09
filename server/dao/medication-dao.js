@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const medicationFolderPath = path.join(__dirname, "storage", "medicationList");
+const medicationFolderPath = path.join(__dirname, "..", "storage", "medicationList");
 
 // Ensure folder exists
 if (!fs.existsSync(medicationFolderPath)) {
@@ -34,6 +34,12 @@ class MedicationDao {
   list() {
     const files = fs.readdirSync(medicationFolderPath);
 
+    // Return empty list if DB is empty
+    if (files.length === 0) {
+      return [];
+    }
+
+    // Load all medications
     const medicationList = files.map((file) => {
       const content = fs.readFileSync(
         path.join(medicationFolderPath, file),
@@ -42,7 +48,7 @@ class MedicationDao {
       return JSON.parse(content);
     });
 
-    return { medicationList };
+    return medicationList;
   }
 
   update(medication) {
