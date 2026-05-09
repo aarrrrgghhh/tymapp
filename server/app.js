@@ -1,5 +1,15 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
+});
 
 app.use(express.json());
 
@@ -9,6 +19,7 @@ const reminderController = require("./controller/reminder.js");
 
 // DAO + Services
 const medicationDao = require("./dao/medication-dao.js");
+const reminderDao = require("./dao/reminder-dao.js");
 const reminderService = require("./service/reminder-service.js");
 
 // Medication routes
@@ -30,14 +41,48 @@ app.post("/reminder/generatePlus14", (req, res) => {
   let generatedCount = 0;
 
   medications.forEach((medication) => {
-    const reminders =
-      reminderService.generateForPlus14Day(medication);
-
+    const reminders = reminderService.generateForPlus14Day(medication);
     generatedCount += reminders.length;
   });
 
   res.json({ generatedCount });
 });
+
+// WebSocket connection
+io.on("connection", (socket) => {
+  console.log("Frontend connected:", socket.id);
+});
+
+// Push due reminders to frontend
+function pushDueReminders() {
+  const now = new Date();
+  const reminders = reminderDao.listFromToday().reminderList;
+
+  reminders.forEach((reminder) => {
+    if (reminder.status !== "UPCOMING") return;
+    if (reminder.notifiedAt) return;
+
+    const scheduledDateTime = new Date(reminder.scheduledDateTime);
+
+    if (scheduledDateTime <= now) {
+      reminder.notifiedAt = now.toISOString();
+      reminderDao.update(reminder);
+
+      io.emit("reminderDue", {
+        notificationId: reminder.notificationId,
+        medicationId: reminder.medicationId,
+        scheduledDateTime: reminder.scheduledDateTime,
+        calculatedPills: reminder.calculatedPills,
+        message: "It’s time to take your medication."
+      });
+
+      console.log("Reminder pushed:", reminder.notificationId);
+    }
+  });
+}
+
+// every minute
+setInterval(pushDueReminders, 60 * 1000);
 
 // DAILY SCHEDULER
 function runDailyReminderGeneration() {
@@ -56,6 +101,6 @@ setInterval(runDailyReminderGeneration, 24 * 60 * 60 * 1000);
 // Start server
 const PORT = 3000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

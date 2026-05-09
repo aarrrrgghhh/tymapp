@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reminder Test</title>
+</head>
+<body>
+  <h1>Reminder Client Connected</h1>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <script>
+    const socket = io("http://localhost:3000");
+
+    socket.on("connect", () => {
+      console.log("Connected:", socket.id);
+    });
+
+    socket.on("reminderDue", (reminder) => {
+      console.log("Reminder received:", reminder);
+
+      alert(reminder.message);
+
+      if (Notification.permission === "granted") {
+        new Notification("Medication Reminder", {
+          body: reminder.message
+        });
+      }
+    });
+
+    Notification.requestPermission();
+  </script>
+</body>
+</html>

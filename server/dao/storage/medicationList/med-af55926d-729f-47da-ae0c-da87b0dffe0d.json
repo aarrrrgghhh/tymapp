@@ -1,0 +1,28 @@
+{
+  "medicationId": "med-af55926d-729f-47da-ae0c-da87b0dffe0d",
+  "brandName": "TEST",
+  "genericName": "TEST test",
+  "dosageStrengthValue": 10,
+  "dosageStrengthUnit": "mg",
+  "personalDosageValue": 10,
+  "personalDosageUnit": "mg",
+  "scheduleType": "DAILY",
+  "monday": false,
+  "tuesday": false,
+  "wednesday": false,
+  "thursday": false,
+  "friday": false,
+  "saturday": false,
+  "sunday": false,
+  "cycleOnDays": 0,
+  "cycleOffDays": 0,
+  "intervalHours": 0,
+  "intervalStartTime": "00:00",
+  "reminderTimes": [
+    "23:07",
+    "23:10",
+    "23:13",
+    "23:17"
+  ],
+  "createdAt": "2026-05-09T21:04:16.887Z"
+}
