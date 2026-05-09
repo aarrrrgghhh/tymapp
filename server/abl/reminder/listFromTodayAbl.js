@@ -1,20 +1,20 @@
 const reminderDao = require("../../dao/reminder-dao.js");
+const reminderService = require("../../service/reminder-service.js");
 
 function ListFromTodayAbl(req, res) {
-  const now = new Date().toISOString();
+  try {
+    reminderService.autoMarkMissedReminders();
 
-  // Load all reminders correctly
-  const { reminderList } = reminderDao.list();
+    const dtoOut = reminderDao.listFromToday();
 
-  // Filter reminders scheduled for today or later
-  const filtered = reminderList.filter(r => r.scheduledDateTime >= now);
+    res.json(dtoOut);
+  } catch (e) {
+    console.error(e);
 
-  // Sort by scheduledDateTime ascending
-  filtered.sort((a, b) => a.scheduledDateTime.localeCompare(b.scheduledDateTime));
-
-  res.json({
-    reminders: filtered
-  });
+    res.status(500).json({
+      error: e.message
+    });
+  }
 }
 
 module.exports = ListFromTodayAbl;

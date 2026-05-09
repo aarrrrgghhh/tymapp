@@ -1,9 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const medicationFolderPath = path.join(__dirname, "..", "storage", "medicationList");
+const medicationFolderPath = path.join(__dirname, "storage", "medicationList");
 
-// Ensure folder exists
 if (!fs.existsSync(medicationFolderPath)) {
   fs.mkdirSync(medicationFolderPath, { recursive: true });
 }
@@ -34,21 +33,14 @@ class MedicationDao {
   list() {
     const files = fs.readdirSync(medicationFolderPath);
 
-    // Return empty list if DB is empty
-    if (files.length === 0) {
-      return [];
-    }
-
-    // Load all medications
-    const medicationList = files.map((file) => {
+    return files.map((file) => {
       const content = fs.readFileSync(
         path.join(medicationFolderPath, file),
         "utf8"
       );
+
       return JSON.parse(content);
     });
-
-    return medicationList;
   }
 
   update(medication) {
@@ -69,9 +61,10 @@ class MedicationDao {
       `${medicationId}.json`
     );
 
-    if (!fs.existsSync(filePath)) return;
+    if (!fs.existsSync(filePath)) return null;
 
     fs.unlinkSync(filePath);
+    return true;
   }
 }
 

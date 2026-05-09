@@ -1,4 +1,5 @@
 const medicationDao = require("../../dao/medication-dao.js");
+const reminderService = require("../../service/reminder-service.js");
 const crypto = require("crypto");
 const Ajv = require("ajv");
 
@@ -160,62 +161,74 @@ const cycleSchema = {
 };
 
 function CreateAbl(req, res) {
-  const dtoIn = req.body;
+  try {
+    const dtoIn = req.body;
 
-  const validateCommon = ajv.compile(commonSchema);
-  if (!validateCommon(dtoIn)) {
-    res.status(400).json({ error: validateCommon.errors });
-    return;
+    const validateCommon = ajv.compile(commonSchema);
+    if (!validateCommon(dtoIn)) {
+      return res.status(400).json({ error: validateCommon.errors });
+    }
+
+    let schema;
+    switch (dtoIn.scheduleType) {
+      case "DAILY":
+        schema = dailySchema;
+        break;
+      case "WEEKLY":
+        schema = weeklySchema;
+        break;
+      case "INTERVAL":
+        schema = intervalSchema;
+        break;
+      case "CYCLE":
+        schema = cycleSchema;
+        break;
+    }
+
+    const validateSpecific = ajv.compile(schema);
+    if (!validateSpecific(dtoIn)) {
+      return res.status(400).json({ error: validateSpecific.errors });
+    }
+
+    const medication = {
+      medicationId: "med-" + crypto.randomUUID(),
+      brandName: dtoIn.brandName,
+      genericName: dtoIn.genericName ?? null,
+      dosageStrengthValue: dtoIn.dosageStrengthValue,
+      dosageStrengthUnit: dtoIn.dosageStrengthUnit,
+      personalDosageValue: dtoIn.personalDosageValue,
+      personalDosageUnit: dtoIn.dosageStrengthUnit,
+      scheduleType: dtoIn.scheduleType,
+      monday: dtoIn.monday ?? false,
+      tuesday: dtoIn.tuesday ?? false,
+      wednesday: dtoIn.wednesday ?? false,
+      thursday: dtoIn.thursday ?? false,
+      friday: dtoIn.friday ?? false,
+      saturday: dtoIn.saturday ?? false,
+      sunday: dtoIn.sunday ?? false,
+      cycleOnDays: dtoIn.cycleOnDays ?? 0,
+      cycleOffDays: dtoIn.cycleOffDays ?? 0,
+      intervalHours: dtoIn.intervalHours ?? 0,
+      intervalStartTime: dtoIn.intervalStartTime ?? "00:00",
+      reminderTimes: dtoIn.reminderTimes ?? [],
+      createdAt: new Date().toISOString()
+    };
+
+    const storedMedication = medicationDao.create(medication);
+
+    const reminders = reminderService.generateNext14Days(storedMedication);
+
+    res.json({
+      medication: storedMedication,
+      generatedReminderCount: reminders.length
+    });
+  } catch (e) {
+    console.error(e);
+
+    res.status(500).json({
+      error: e.message
+    });
   }
-
-  let schema;
-  switch (dtoIn.scheduleType) {
-    case "DAILY":
-      schema = dailySchema;
-      break;
-    case "WEEKLY":
-      schema = weeklySchema;
-      break;
-    case "INTERVAL":
-      schema = intervalSchema;
-      break;
-    case "CYCLE":
-      schema = cycleSchema;
-      break;
-  }
-
-  const validateSpecific = ajv.compile(schema);
-  if (!validateSpecific(dtoIn)) {
-    res.status(400).json({ error: validateSpecific.errors });
-    return;
-  }
-
-  const medication = {
-    medicationId: "med-" + crypto.randomUUID(),
-    brandName: dtoIn.brandName,
-    genericName: dtoIn.genericName ?? null,
-    dosageStrengthValue: dtoIn.dosageStrengthValue,
-    dosageStrengthUnit: dtoIn.dosageStrengthUnit,
-    personalDosageValue: dtoIn.personalDosageValue,
-    personalDosageUnit: dtoIn.dosageStrengthUnit,
-    scheduleType: dtoIn.scheduleType,
-    monday: dtoIn.monday ?? false,
-    tuesday: dtoIn.tuesday ?? false,
-    wednesday: dtoIn.wednesday ?? false,
-    thursday: dtoIn.thursday ?? false,
-    friday: dtoIn.friday ?? false,
-    saturday: dtoIn.saturday ?? false,
-    sunday: dtoIn.sunday ?? false,
-    cycleOnDays: dtoIn.cycleOnDays ?? 0,
-    cycleOffDays: dtoIn.cycleOffDays ?? 0,
-    intervalHours: dtoIn.intervalHours ?? 0,
-    intervalStartTime: dtoIn.intervalStartTime ?? "00:00",
-    reminderTimes: dtoIn.reminderTimes ?? []
-  };
-
-  medicationDao.create(medication);
-
-  res.json(medication);
 }
 
 module.exports = CreateAbl;
