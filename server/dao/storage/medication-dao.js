@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-// Folder: server/dao/storage/medicationList
 const medicationFolderPath = path.join(__dirname, "storage", "medicationList");
 
 // Ensure folder exists
@@ -18,6 +17,18 @@ class MedicationDao {
 
     fs.writeFileSync(filePath, JSON.stringify(medication, null, 2), "utf8");
     return medication;
+  }
+
+  get(medicationId) {
+    const filePath = path.join(
+      medicationFolderPath,
+      `${medicationId}.json`
+    );
+
+    if (!fs.existsSync(filePath)) return null;
+
+    const content = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(content);
   }
 
   list() {
