@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -12,6 +13,7 @@ const io = new Server(server, {
 });
 
 app.use(express.json());
+app.use(cors());
 
 // Controllers
 const medicationController = require("./controller/medication.js");

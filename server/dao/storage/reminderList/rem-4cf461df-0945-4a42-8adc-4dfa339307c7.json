@@ -3,5 +3,6 @@
   "medicationId": "med-af55926d-729f-47da-ae0c-da87b0dffe0d",
   "scheduledDateTime": "2026-05-22T21:13:00.000Z",
   "status": "UPCOMING",
-  "calculatedPills": 1
+  "calculatedPills": 1,
+  "notifiedAt": "2026-05-22T22:19:08.153Z"
 }

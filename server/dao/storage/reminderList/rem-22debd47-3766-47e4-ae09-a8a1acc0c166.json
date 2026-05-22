@@ -2,6 +2,6 @@
   "notificationId": "rem-22debd47-3766-47e4-ae09-a8a1acc0c166",
   "medicationId": "med-dba5b885-86d3-44f6-bf68-9c154f9bf512",
   "scheduledDateTime": "2026-05-22T06:45:00.000Z",
-  "status": "UPCOMING",
+  "status": "MISSED",
   "calculatedPills": 0.5
 }
