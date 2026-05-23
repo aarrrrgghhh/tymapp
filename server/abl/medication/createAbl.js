@@ -13,7 +13,10 @@ const commonSchema = {
     dosageStrengthValue: { type: "number", minimum: 0.1, maximum: 10000 },
     dosageStrengthUnit: { type: "string", enum: ["mg", "µg", "IU"] },
     personalDosageValue: { type: "number", minimum: 0.1, maximum: 10000 },
-    scheduleType: { type: "string", enum: ["DAILY", "WEEKLY", "INTERVAL", "CYCLE"] }
+    scheduleType: {
+      type: "string",
+      enum: ["DAILY", "WEEKLY", "INTERVAL", "CYCLE"]
+    }
   },
   required: [
     "brandName",
@@ -114,7 +117,10 @@ const intervalSchema = {
     personalDosageValue: { type: "number" },
     scheduleType: { type: "string" },
     intervalHours: { type: "integer", minimum: 1, maximum: 12 },
-    intervalStartTime: { type: "string", pattern: "^([01]\\d|2[0-3]):[0-5]\\d$" }
+    intervalStartTime: {
+      type: "string",
+      pattern: "^([01]\\d|2[0-3]):[0-5]\\d$"
+    }
   },
   required: [
     "brandName",
@@ -199,23 +205,38 @@ function CreateAbl(req, res) {
       personalDosageValue: dtoIn.personalDosageValue,
       personalDosageUnit: dtoIn.dosageStrengthUnit,
       scheduleType: dtoIn.scheduleType,
-      monday: dtoIn.monday ?? false,
-      tuesday: dtoIn.tuesday ?? false,
-      wednesday: dtoIn.wednesday ?? false,
-      thursday: dtoIn.thursday ?? false,
-      friday: dtoIn.friday ?? false,
-      saturday: dtoIn.saturday ?? false,
-      sunday: dtoIn.sunday ?? false,
-      cycleOnDays: dtoIn.cycleOnDays ?? 0,
-      cycleOffDays: dtoIn.cycleOffDays ?? 0,
-      intervalHours: dtoIn.intervalHours ?? 0,
-      intervalStartTime: dtoIn.intervalStartTime ?? "00:00",
-      reminderTimes: dtoIn.reminderTimes ?? [],
       createdAt: new Date().toISOString()
     };
 
-    const storedMedication = medicationDao.create(medication);
+    switch (dtoIn.scheduleType) {
+      case "DAILY":
+        medication.reminderTimes = dtoIn.reminderTimes;
+        break;
 
+      case "WEEKLY":
+        medication.monday = dtoIn.monday;
+        medication.tuesday = dtoIn.tuesday;
+        medication.wednesday = dtoIn.wednesday;
+        medication.thursday = dtoIn.thursday;
+        medication.friday = dtoIn.friday;
+        medication.saturday = dtoIn.saturday;
+        medication.sunday = dtoIn.sunday;
+        medication.reminderTimes = dtoIn.reminderTimes;
+        break;
+
+      case "INTERVAL":
+        medication.intervalHours = dtoIn.intervalHours;
+        medication.intervalStartTime = dtoIn.intervalStartTime;
+        break;
+
+      case "CYCLE":
+        medication.cycleOnDays = dtoIn.cycleOnDays;
+        medication.cycleOffDays = dtoIn.cycleOffDays;
+        medication.reminderTimes = dtoIn.reminderTimes;
+        break;
+    }
+
+    const storedMedication = medicationDao.create(medication);
     const reminders = reminderService.generateNext14Days(storedMedication);
 
     res.json({
