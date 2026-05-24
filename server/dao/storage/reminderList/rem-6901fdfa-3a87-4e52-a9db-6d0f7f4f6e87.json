@@ -1,0 +1,7 @@
+{
+  "notificationId": "rem-6901fdfa-3a87-4e52-a9db-6d0f7f4f6e87",
+  "medicationId": "med-7ba5ba97-db4d-4428-a995-7bb553f0eb84",
+  "scheduledDateTime": "2026-05-29T18:00:00.000Z",
+  "status": "TAKEN",
+  "calculatedPills": 4
+}

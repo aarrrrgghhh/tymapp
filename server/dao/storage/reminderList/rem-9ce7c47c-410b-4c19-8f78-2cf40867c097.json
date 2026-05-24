@@ -1,0 +1,7 @@
+{
+  "notificationId": "rem-9ce7c47c-410b-4c19-8f78-2cf40867c097",
+  "medicationId": "med-853c773a-cdd8-4eb8-87f1-3ab282f7c2a0",
+  "scheduledDateTime": "2026-06-04T12:00:00.000Z",
+  "status": "UPCOMING",
+  "calculatedPills": 2
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import BottomNavbar from "../common/bottom-navbar";
 
-function MedicationList({ setActivePage }) {
+function MedicationList({ setActivePage, setSelectedMedication }) {
   const [medicationList, setMedicationList] = useState([]);
   const [medicationToDelete, setMedicationToDelete] = useState(null);
 
@@ -49,11 +49,21 @@ function deleteMedication() {
       <h1>Take Your Meds</h1>
 
       <ul>
-        <li className="add-medication-item">
+        <li
+  className="add-medication-item"
+  onClick={() => setActivePage("medication-form")}
+>
   + Add Medication
 </li>
         {medicationList.map((medication) => (
-          <li key={medication.medicationId} className="medication-item">
+          <li
+  key={medication.medicationId}
+  className="medication-item"
+  onClick={() => {
+    setSelectedMedication(medication);
+    setActivePage("medication-form");
+  }}
+>
             <div>
               <strong>
                 {medication.brandName} {medication.dosageStrengthValue}{" "}
