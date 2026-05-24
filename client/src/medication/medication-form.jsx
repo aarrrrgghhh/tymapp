@@ -1,119 +1,77 @@
-import { FiTrash2 } from "react-icons/fi";
-import { FiPlusCircle } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { FiTrash2, FiPlusCircle } from "react-icons/fi";
+
+function getWeekdaysFromMedication(medication) {
+  return [
+    medication.monday ? "MONDAY" : null,
+    medication.tuesday ? "TUESDAY" : null,
+    medication.wednesday ? "WEDNESDAY" : null,
+    medication.thursday ? "THURSDAY" : null,
+    medication.friday ? "FRIDAY" : null,
+    medication.saturday ? "SATURDAY" : null,
+    medication.sunday ? "SUNDAY" : null
+  ].filter(Boolean);
+}
 
 function MedicationForm({ setActivePage, selectedMedication }) {
-  const [brandName, setBrandName] = useState(selectedMedication?.brandName || "");
-  const [genericName, setGenericName] = useState(selectedMedication?.genericName || "");
-  const [dosageStrengthValue, setDosageStrengthValue] = useState(
-    selectedMedication?.dosageStrengthValue || ""
-  );
-  const [dosageStrengthUnit, setDosageStrengthUnit] = useState(
-    selectedMedication?.dosageStrengthUnit || "mg"
-  );
-  const [personalDosageValue, setPersonalDosageValue] = useState(
-    selectedMedication?.personalDosageValue || ""
-  );
-  const [scheduleType, setScheduleType] = useState(
-    selectedMedication?.scheduleType || "DAILY"
-  );
-
-  const [reminderTimes, setReminderTimes] = useState(
-    selectedMedication?.reminderTimes || ["08:00"]
-  );
-
-  const [intervalHours, setIntervalHours] = useState(
-    selectedMedication?.intervalHours || ""
-  );
-  const [intervalStartTime, setIntervalStartTime] = useState(
-    selectedMedication?.intervalStartTime || "08:00"
-  );
-
-  const [weekdays, setWeekdays] = useState(
-    selectedMedication?.scheduleType === "WEEKLY"
-      ? [
-          selectedMedication.monday ? "MONDAY" : null,
-          selectedMedication.tuesday ? "TUESDAY" : null,
-          selectedMedication.wednesday ? "WEDNESDAY" : null,
-          selectedMedication.thursday ? "THURSDAY" : null,
-          selectedMedication.friday ? "FRIDAY" : null,
-          selectedMedication.saturday ? "SATURDAY" : null,
-          selectedMedication.sunday ? "SUNDAY" : null
-        ].filter(Boolean)
-      : ["MONDAY"]
-  );
-
-  const [cycleOnDays, setCycleOnDays] = useState(
-    selectedMedication?.cycleOnDays || ""
-  );
-  const [cycleOffDays, setCycleOffDays] = useState(
-    selectedMedication?.cycleOffDays || ""
-  );
-
+  const [brandName, setBrandName] = useState("");
+  const [genericName, setGenericName] = useState("");
+  const [dosageStrengthValue, setDosageStrengthValue] = useState("");
+  const [dosageStrengthUnit, setDosageStrengthUnit] = useState("mg");
+  const [personalDosageValue, setPersonalDosageValue] = useState("");
+  const [scheduleType, setScheduleType] = useState("DAILY");
+  const [reminderTimes, setReminderTimes] = useState(["08:00"]);
+  const [intervalHours, setIntervalHours] = useState("");
+  const [intervalStartTime, setIntervalStartTime] = useState("08:00");
+  const [weekdays, setWeekdays] = useState(["MONDAY"]);
+  const [cycleOnDays, setCycleOnDays] = useState("");
+  const [cycleOffDays, setCycleOffDays] = useState("");
   const [formError, setFormError] = useState({});
+
+  useEffect(() => {
+    if (!selectedMedication) {
+      setBrandName("");
+      setGenericName("");
+      setDosageStrengthValue("");
+      setDosageStrengthUnit("mg");
+      setPersonalDosageValue("");
+      setScheduleType("DAILY");
+      setReminderTimes(["08:00"]);
+      setIntervalHours("");
+      setIntervalStartTime("08:00");
+      setWeekdays(["MONDAY"]);
+      setCycleOnDays("");
+      setCycleOffDays("");
+      setFormError({});
+      return;
+    }
+
+    setBrandName(selectedMedication.brandName || "");
+    setGenericName(selectedMedication.genericName || "");
+    setDosageStrengthValue(selectedMedication.dosageStrengthValue || "");
+    setDosageStrengthUnit(selectedMedication.dosageStrengthUnit || "mg");
+    setPersonalDosageValue(selectedMedication.personalDosageValue || "");
+    setScheduleType(selectedMedication.scheduleType || "DAILY");
+    setReminderTimes(selectedMedication.reminderTimes || ["08:00"]);
+    setIntervalHours(selectedMedication.intervalHours || "");
+    setIntervalStartTime(selectedMedication.intervalStartTime || "08:00");
+    setCycleOnDays(selectedMedication.cycleOnDays || "");
+    setCycleOffDays(selectedMedication.cycleOffDays || "");
+
+    if (selectedMedication.scheduleType === "WEEKLY") {
+      const selectedWeekdays = getWeekdaysFromMedication(selectedMedication);
+      setWeekdays(selectedWeekdays.length > 0 ? selectedWeekdays : ["MONDAY"]);
+    } else {
+      setWeekdays(["MONDAY"]);
+    }
+
+    setFormError({});
+  }, [selectedMedication]);
 
   const calculatedPills =
     dosageStrengthValue && personalDosageValue
       ? Number(personalDosageValue) / Number(dosageStrengthValue)
       : "";
-      useEffect(() => {
-  if (!selectedMedication) {
-    return;
-  }
-
-  setBrandName(selectedMedication.brandName || "");
-  setGenericName(selectedMedication.genericName || "");
-
-  setDosageStrengthValue(
-    selectedMedication.dosageStrengthValue || ""
-  );
-
-  setDosageStrengthUnit(
-    selectedMedication.dosageStrengthUnit || "mg"
-  );
-
-  setPersonalDosageValue(
-    selectedMedication.personalDosageValue || ""
-  );
-
-  setScheduleType(
-    selectedMedication.scheduleType || "DAILY"
-  );
-
-  setReminderTimes(
-    selectedMedication.reminderTimes || ["08:00"]
-  );
-
-  setIntervalHours(
-    selectedMedication.intervalHours || ""
-  );
-
-  setIntervalStartTime(
-    selectedMedication.intervalStartTime || "08:00"
-  );
-
-  setCycleOnDays(
-    selectedMedication.cycleOnDays || ""
-  );
-
-  setCycleOffDays(
-    selectedMedication.cycleOffDays || ""
-  );
-
-  if (selectedMedication.scheduleType === "WEEKLY") {
-    setWeekdays(
-      [
-        selectedMedication.monday ? "MONDAY" : null,
-        selectedMedication.tuesday ? "TUESDAY" : null,
-        selectedMedication.wednesday ? "WEDNESDAY" : null,
-        selectedMedication.thursday ? "THURSDAY" : null,
-        selectedMedication.friday ? "FRIDAY" : null,
-        selectedMedication.saturday ? "SATURDAY" : null,
-        selectedMedication.sunday ? "SUNDAY" : null
-      ].filter(Boolean)
-    );
-  }
-}, [selectedMedication]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -152,7 +110,9 @@ function MedicationForm({ setActivePage, selectedMedication }) {
 
     if (
       scheduleType === "CYCLE" &&
-      (!cycleOnDays || Number(cycleOnDays) < 1 || Number(cycleOnDays) > 30)
+      (!cycleOnDays ||
+        Number(cycleOnDays) < 1 ||
+        Number(cycleOnDays) > 30)
     ) {
       setFormError({
         cycleOnDays: "Cycle on days must be between 1 and 30."
@@ -162,7 +122,9 @@ function MedicationForm({ setActivePage, selectedMedication }) {
 
     if (
       scheduleType === "CYCLE" &&
-      (!cycleOffDays || Number(cycleOffDays) < 1 || Number(cycleOffDays) > 30)
+      (!cycleOffDays ||
+        Number(cycleOffDays) < 1 ||
+        Number(cycleOffDays) > 30)
     ) {
       setFormError({
         cycleOffDays: "Cycle off days must be between 1 and 30."
@@ -177,6 +139,10 @@ function MedicationForm({ setActivePage, selectedMedication }) {
       personalDosageValue: Number(personalDosageValue),
       scheduleType
     };
+
+    if (selectedMedication) {
+      dtoIn.medicationId = selectedMedication.medicationId;
+    }
 
     if (genericName.trim()) {
       dtoIn.genericName = genericName.trim();
@@ -209,12 +175,11 @@ function MedicationForm({ setActivePage, selectedMedication }) {
       dtoIn.cycleOnDays = Number(cycleOnDays);
       dtoIn.cycleOffDays = Number(cycleOffDays);
     }
-    if (selectedMedication) {
-  dtoIn.medicationId = selectedMedication.medicationId;
-}
-const requestUrl = selectedMedication
-  ? "http://localhost:3000/medication/update"
-  : "http://localhost:3000/medication/create";
+
+    const requestUrl = selectedMedication
+      ? "http://localhost:3000/medication/update"
+      : "http://localhost:3000/medication/create";
+
     fetch(requestUrl, {
       method: "POST",
       headers: {
@@ -224,7 +189,7 @@ const requestUrl = selectedMedication
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to create medication.");
+          throw new Error("Failed to save medication.");
         }
 
         return response.json();
@@ -235,7 +200,7 @@ const requestUrl = selectedMedication
       .catch((error) => {
         console.error(error);
         setFormError({
-          submit: "Failed to create medication."
+          submit: "Failed to save medication."
         });
       });
   }
@@ -244,7 +209,7 @@ const requestUrl = selectedMedication
     <div className="app-page">
       <h1>Take Your Meds</h1>
 
-      <h2>MEDICATION</h2>
+      <h2>{selectedMedication ? "EDIT MEDICATION" : "ADD MEDICATION"}</h2>
 
       <form className="medication-form" onSubmit={handleSubmit}>
         <label>Brand name</label>
@@ -427,35 +392,43 @@ const requestUrl = selectedMedication
         {formError.intervalHours && (
           <p className="field-error">{formError.intervalHours}</p>
         )}
-{scheduleType === "CYCLE" && (
-  <div className="inline-fields-row">
-    <div className="inline-field">
-      <label>Cycle on days</label>
 
-      <input
-        type="number"
-        min="1"
-        max="30"
-        step="1"
-        value={cycleOnDays}
-        onChange={(event) => setCycleOnDays(event.target.value)}
-      />
-    </div>
+        {scheduleType === "CYCLE" && (
+          <div className="inline-fields-row">
+            <div className="inline-field">
+              <label>Cycle on days</label>
 
-    <div className="inline-field">
-      <label>Cycle off days</label>
+              <input
+                type="number"
+                min="1"
+                max="30"
+                step="1"
+                value={cycleOnDays}
+                onChange={(event) => setCycleOnDays(event.target.value)}
+              />
+            </div>
 
-      <input
-        type="number"
-        min="1"
-        max="30"
-        step="1"
-        value={cycleOffDays}
-        onChange={(event) => setCycleOffDays(event.target.value)}
-      />
-    </div>
-  </div>
-)}
+            <div className="inline-field">
+              <label>Cycle off days</label>
+
+              <input
+                type="number"
+                min="1"
+                max="30"
+                step="1"
+                value={cycleOffDays}
+                onChange={(event) => setCycleOffDays(event.target.value)}
+              />
+            </div>
+          </div>
+        )}
+        {formError.cycleOnDays && (
+          <p className="field-error">{formError.cycleOnDays}</p>
+        )}
+        {formError.cycleOffDays && (
+          <p className="field-error">{formError.cycleOffDays}</p>
+        )}
+
         {(
           scheduleType === "DAILY" ||
           scheduleType === "WEEKLY" ||
@@ -521,7 +494,9 @@ const requestUrl = selectedMedication
             Cancel
           </button>
 
-          <button type="submit">Save</button>
+          <button type="submit">
+            {selectedMedication ? "Update" : "Save"}
+          </button>
         </div>
       </form>
     </div>

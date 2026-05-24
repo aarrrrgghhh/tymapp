@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import BottomNavbar from "../common/bottom-navbar";
 
-function ReminderDashboard({ setActivePage }) {
+function ReminderDashboard({
+  setActivePage,
+  setSelectedMedication
+}) {
   const [reminderList, setReminderList] = useState([]);
   const [medicationList, setMedicationList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -150,9 +153,15 @@ function ReminderDashboard({ setActivePage }) {
      <>
   <p>No reminders yet. Add your first medication.</p>
 
-  <div className="add-medication-item">
-    + Add Medication
-  </div>
+  <div
+  className="add-medication-item"
+  onClick={() => {
+    setSelectedMedication(null);
+    setActivePage("medication-form");
+  }}
+>
+  + Add Medication
+</div>
 </>
     )}
 

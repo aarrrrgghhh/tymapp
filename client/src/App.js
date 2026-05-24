@@ -11,7 +11,10 @@ function App() {
   return (
     <div>
       {activePage === "home" && (
-        <ReminderDashboard setActivePage={setActivePage} />
+       <ReminderDashboard
+  setActivePage={setActivePage}
+  setSelectedMedication={setSelectedMedication}
+/>
       )}
 
       {activePage === "medication" && (
@@ -22,10 +25,11 @@ function App() {
       )}
 
       {activePage === "medication-form" && (
-        <MedicationForm
-          setActivePage={setActivePage}
-          selectedMedication={selectedMedication}
-        />
+       <MedicationForm
+  key={selectedMedication ? selectedMedication.medicationId : "create"}
+  setActivePage={setActivePage}
+  selectedMedication={selectedMedication}
+/>
       )}
     </div>
   );

@@ -51,7 +51,10 @@ function deleteMedication() {
       <ul>
         <li
   className="add-medication-item"
-  onClick={() => setActivePage("medication-form")}
+  onClick={() => {
+    setSelectedMedication(null);
+    setActivePage("medication-form");
+  }}
 >
   + Add Medication
 </li>

@@ -1,0 +1,14 @@
+{
+  "medicationId": "med-0f745f72-2a49-4f78-80f5-9c5b21a22b5e",
+  "brandName": "trst",
+  "genericName": "tsre",
+  "dosageStrengthValue": 100,
+  "dosageStrengthUnit": "mg",
+  "personalDosageValue": 100,
+  "personalDosageUnit": "mg",
+  "scheduleType": "DAILY",
+  "createdAt": "2026-05-24T19:27:35.264Z",
+  "reminderTimes": [
+    "08:00"
+  ]
+}
