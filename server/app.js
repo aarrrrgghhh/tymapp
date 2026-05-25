@@ -87,9 +87,9 @@ function pushDueReminders() {
   });
 }
 
-// when reminder is due 4 hours and when the server starts
+// when reminder is due 4 hours 
 setInterval(reminderService.autoMarkMissedReminders, 60 * 1000);
-reminderService.autoMarkMissedReminders();
+
 
 // every minute
 setInterval(pushDueReminders, 60 * 1000);
