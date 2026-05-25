@@ -35,6 +35,7 @@ app.post("/reminder/create", reminderController.create);
 app.post("/reminder/update", reminderController.update);
 app.post("/reminder/delete", reminderController.delete);
 app.get("/reminder/listFromToday", reminderController.listFromToday);
+app.get("/reminder/listByMedicationId", reminderController.listByMedicationId);
 
 // TEST ROUTE FOR +14 GENERATION
 app.post("/reminder/generatePlus14", (req, res) => {

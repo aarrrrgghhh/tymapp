@@ -28,7 +28,7 @@ class ReminderDao {
   }
 
   
-listByMedicationId(medicationId) {
+  listByMedicationId(medicationId) {
   const files = fs.readdirSync(reminderFolderPath);
 
   const reminderList = files
