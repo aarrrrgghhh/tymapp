@@ -27,19 +27,18 @@ function DeleteAbl(req, res) {
       return res.status(404).json({ error: "Medication not found" });
     }
 
-    const reminders = reminderDao.list().reminderList;
+    const reminders =
+      reminderDao.listByMedicationId(dtoIn.medicationId).reminderList;
 
     let deletedReminderCount = 0;
 
-    reminders
-      .filter((reminder) => reminder.medicationId === dtoIn.medicationId)
-      .forEach((reminder) => {
-        const deleted = reminderDao.delete(reminder.notificationId);
+    reminders.forEach((reminder) => {
+      const deleted = reminderDao.delete(reminder.notificationId);
 
-        if (deleted) {
-          deletedReminderCount++;
-        }
-      });
+      if (deleted) {
+        deletedReminderCount++;
+      }
+    });
 
     medicationDao.delete(dtoIn.medicationId);
 

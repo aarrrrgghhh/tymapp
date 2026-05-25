@@ -132,13 +132,12 @@ function normalizeMedication(medication) {
 }
 
 function deleteRemindersForMedication(medicationId) {
-  const reminders = reminderDao.listFromToday().reminderList;
+  const reminders =
+    reminderDao.listByMedicationId(medicationId).reminderList;
 
-  reminders
-    .filter((reminder) => reminder.medicationId === medicationId)
-    .forEach((reminder) => {
-      reminderDao.delete(reminder.notificationId);
-    });
+  reminders.forEach((reminder) => {
+    reminderDao.delete(reminder.notificationId);
+  });
 }
 
 function recalculateReminderPills(medication) {

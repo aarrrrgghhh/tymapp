@@ -1,0 +1,14 @@
+{
+  "medicationId": "med-34ebe101-1a90-4d2b-acd3-283c7a0b0c8b",
+  "brandName": "TEST",
+  "genericName": null,
+  "dosageStrengthValue": 100,
+  "dosageStrengthUnit": "mg",
+  "personalDosageValue": 100,
+  "personalDosageUnit": "mg",
+  "scheduleType": "DAILY",
+  "createdAt": "2026-05-25T13:09:12.499Z",
+  "reminderTimes": [
+    "15:10"
+  ]
+}
