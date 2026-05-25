@@ -415,3 +415,57 @@ h2 {
   font-size: 13px;
   margin: 2px 0 4px;
 }
+/* REMINDER TOAST */
+
+.reminder-toast {
+  position: fixed;
+
+  top: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: 380px;
+
+  z-index: 3000;
+}
+
+.reminder-toast-content {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 16px 18px;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+  border: 1px solid #eeeeee;
+}
+
+.reminder-toast-content h3 {
+  margin: 0 0 8px;
+}
+
+.reminder-toast-content p {
+  margin: 0;
+  color: #555555;
+}
+
+.reminder-toast-buttons {
+  display: flex;
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+.reminder-toast-buttons button {
+  border: none;
+  border-radius: 12px;
+
+  padding: 10px 14px;
+
+  cursor: pointer;
+
+  background: #f3f3f3;
+}

@@ -27,7 +27,7 @@ function DeleteAbl(req, res) {
       return res.status(404).json({ error: "Medication not found" });
     }
 
-    const reminders = reminderDao.listFromToday().reminderList;
+    const reminders = reminderDao.list().reminderList;
 
     let deletedReminderCount = 0;
 

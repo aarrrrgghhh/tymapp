@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
+function getCurrentTime() {
+  const now = new Date();
 
+  const minutes = Math.ceil(now.getMinutes() / 5) * 5;
+
+  now.setMinutes(minutes);
+  now.setSeconds(0);
+
+  return now.toTimeString().slice(0, 5);
+}
 function getWeekdaysFromMedication(medication) {
   return [
     medication.monday ? "MONDAY" : null,
@@ -20,9 +29,9 @@ function MedicationForm({ setActivePage, selectedMedication }) {
   const [dosageStrengthUnit, setDosageStrengthUnit] = useState("mg");
   const [personalDosageValue, setPersonalDosageValue] = useState("");
   const [scheduleType, setScheduleType] = useState("DAILY");
-  const [reminderTimes, setReminderTimes] = useState(["08:00"]);
+  const [reminderTimes, setReminderTimes] = useState([getCurrentTime()]);
   const [intervalHours, setIntervalHours] = useState("");
-  const [intervalStartTime, setIntervalStartTime] = useState("08:00");
+  const [intervalStartTime, setIntervalStartTime] = useState(getCurrentTime());
   const [weekdays, setWeekdays] = useState(["MONDAY"]);
   const [cycleOnDays, setCycleOnDays] = useState("");
   const [cycleOffDays, setCycleOffDays] = useState("");
@@ -36,9 +45,9 @@ function MedicationForm({ setActivePage, selectedMedication }) {
       setDosageStrengthUnit("mg");
       setPersonalDosageValue("");
       setScheduleType("DAILY");
-      setReminderTimes(["08:00"]);
+      setReminderTimes([getCurrentTime()]);
       setIntervalHours("");
-      setIntervalStartTime("08:00");
+      setIntervalStartTime(getCurrentTime());
       setWeekdays(["MONDAY"]);
       setCycleOnDays("");
       setCycleOffDays("");
@@ -52,9 +61,9 @@ function MedicationForm({ setActivePage, selectedMedication }) {
     setDosageStrengthUnit(selectedMedication.dosageStrengthUnit || "mg");
     setPersonalDosageValue(selectedMedication.personalDosageValue || "");
     setScheduleType(selectedMedication.scheduleType || "DAILY");
-    setReminderTimes(selectedMedication.reminderTimes || ["08:00"]);
+    setReminderTimes(selectedMedication.reminderTimes || [getCurrentTime()]);
     setIntervalHours(selectedMedication.intervalHours || "");
-    setIntervalStartTime(selectedMedication.intervalStartTime || "08:00");
+    setIntervalStartTime(selectedMedication.intervalStartTime || getCurrentTime());
     setCycleOnDays(selectedMedication.cycleOnDays || "");
     setCycleOffDays(selectedMedication.cycleOffDays || "");
 
@@ -476,7 +485,7 @@ function MedicationForm({ setActivePage, selectedMedication }) {
               <button
                 type="button"
                 className="add-reminder-button"
-                onClick={() => setReminderTimes([...reminderTimes, "08:00"])}
+                onClick={() => setReminderTimes([...reminderTimes, getCurrentTime()])}
               >
                 <FiPlusCircle />
                 Add reminder

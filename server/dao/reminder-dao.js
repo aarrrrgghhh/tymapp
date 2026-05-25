@@ -27,29 +27,48 @@ class ReminderDao {
     return JSON.parse(content);
   }
 
+  list() {
+    const files = fs.readdirSync(reminderFolderPath);
+
+    const reminderList = files
+      .map((file) => {
+        const content = fs.readFileSync(
+          path.join(reminderFolderPath, file),
+          "utf8"
+        );
+
+        return JSON.parse(content);
+      })
+      .sort((a, b) => {
+        return new Date(a.scheduledDateTime) - new Date(b.scheduledDateTime);
+      });
+
+    return { reminderList };
+  }
+
   listFromToday() {
-  const today = new Date().toISOString().split("T")[0];
-  const files = fs.readdirSync(reminderFolderPath);
+    const today = new Date().toISOString().split("T")[0];
+    const files = fs.readdirSync(reminderFolderPath);
 
-  const reminderList = files
-    .map((file) => {
-      const content = fs.readFileSync(
-        path.join(reminderFolderPath, file),
-        "utf8"
-      );
+    const reminderList = files
+      .map((file) => {
+        const content = fs.readFileSync(
+          path.join(reminderFolderPath, file),
+          "utf8"
+        );
 
-      return JSON.parse(content);
-    })
-    .filter((reminder) => {
-      const reminderDate = reminder.scheduledDateTime.split("T")[0];
-      return reminderDate >= today;
-    })
-    .sort((a, b) => {
-      return new Date(a.scheduledDateTime) - new Date(b.scheduledDateTime);
-    });
+        return JSON.parse(content);
+      })
+      .filter((reminder) => {
+        const reminderDate = reminder.scheduledDateTime.split("T")[0];
+        return reminderDate >= today;
+      })
+      .sort((a, b) => {
+        return new Date(a.scheduledDateTime) - new Date(b.scheduledDateTime);
+      });
 
-  return { reminderList };
-}
+    return { reminderList };
+  }
 
   update(reminder) {
     const filePath = path.join(

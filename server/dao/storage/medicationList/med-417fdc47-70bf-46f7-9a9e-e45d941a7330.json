@@ -1,0 +1,14 @@
+{
+  "medicationId": "med-417fdc47-70bf-46f7-9a9e-e45d941a7330",
+  "brandName": "Aerius",
+  "genericName": "disloratadium",
+  "dosageStrengthValue": 5,
+  "dosageStrengthUnit": "mg",
+  "personalDosageValue": 5,
+  "personalDosageUnit": "mg",
+  "scheduleType": "DAILY",
+  "createdAt": "2026-05-25T12:28:52.322Z",
+  "reminderTimes": [
+    "20:30"
+  ]
+}

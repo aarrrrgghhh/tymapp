@@ -70,18 +70,26 @@ function pushDueReminders() {
       reminder.notifiedAt = now.toISOString();
       reminderDao.update(reminder);
 
+      const medication = medicationDao.get(reminder.medicationId);
+
+    
+
       io.emit("reminderDue", {
         notificationId: reminder.notificationId,
         medicationId: reminder.medicationId,
         scheduledDateTime: reminder.scheduledDateTime,
         calculatedPills: reminder.calculatedPills,
-        message: "It’s time to take your medication."
+       message: `Time to take ${medication.brandName} ${medication.dosageStrengthValue} ${medication.dosageStrengthUnit}. Take ${reminder.calculatedPills} pill(s).`
       });
 
       console.log("Reminder pushed:", reminder.notificationId);
     }
   });
 }
+
+// when reminder is due 4 hours and when the server starts
+setInterval(reminderService.autoMarkMissedReminders, 60 * 1000);
+reminderService.autoMarkMissedReminders();
 
 // every minute
 setInterval(pushDueReminders, 60 * 1000);

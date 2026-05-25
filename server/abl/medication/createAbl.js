@@ -10,9 +10,9 @@ const commonSchema = {
   properties: {
     brandName: { type: "string", minLength: 1, maxLength: 100 },
     genericName: { type: "string", minLength: 1, maxLength: 150 },
-    dosageStrengthValue: { type: "number", minimum: 0.1, maximum: 10000 },
+    dosageStrengthValue: { type: "number", minimum: 0.01, maximum: 10000 },
     dosageStrengthUnit: { type: "string", enum: ["mg", "µg", "IU"] },
-    personalDosageValue: { type: "number", minimum: 0.1, maximum: 10000 },
+    personalDosageValue: { type: "number", minimum: 0.01, maximum: 10000 },
     scheduleType: {
       type: "string",
       enum: ["DAILY", "WEEKLY", "INTERVAL", "CYCLE"]

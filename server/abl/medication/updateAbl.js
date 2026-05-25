@@ -13,9 +13,9 @@ const medicationUpdateSchema = {
     medicationId: { type: "string", minLength: 1 },
     brandName: { type: "string", minLength: 1 },
     genericName: { type: "string", minLength: 1 },
-    dosageStrengthValue: { type: "number", minimum: 0.1 },
+    dosageStrengthValue: { type: "number", minimum: 0.01, maximum: 10000 },
     dosageStrengthUnit: { type: "string", enum: ["mg", "µg", "IU"] },
-    personalDosageValue: { type: "number", minimum: 0.1 },
+    personalDosageValue: { type: "number", minimum: 0.01, maximum: 10000 },
     scheduleType: {
       type: "string",
       enum: ["DAILY", "WEEKLY", "INTERVAL", "CYCLE"]
