@@ -1,0 +1,14 @@
+{
+  "medicationId": "med-91b290f7-6128-4a2d-b594-68f94adf2786",
+  "brandName": "Euthyrox",
+  "genericName": "Levothyroxine sodium",
+  "dosageStrengthValue": 50,
+  "dosageStrengthUnit": "µg",
+  "personalDosageValue": 25,
+  "personalDosageUnit": "µg",
+  "scheduleType": "DAILY",
+  "createdAt": "2026-05-26T10:45:17.166Z",
+  "reminderTimes": [
+    "06:15"
+  ]
+}

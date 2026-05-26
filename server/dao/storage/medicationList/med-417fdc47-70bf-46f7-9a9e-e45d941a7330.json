@@ -1,7 +1,7 @@
 {
   "medicationId": "med-417fdc47-70bf-46f7-9a9e-e45d941a7330",
   "brandName": "Aerius",
-  "genericName": "disloratadium",
+  "genericName": "Desloratadin",
   "dosageStrengthValue": 5,
   "dosageStrengthUnit": "mg",
   "personalDosageValue": 5,
@@ -9,6 +9,17 @@
   "scheduleType": "DAILY",
   "createdAt": "2026-05-25T12:28:52.322Z",
   "reminderTimes": [
-    "20:30"
-  ]
+    "07:15"
+  ],
+  "monday": false,
+  "tuesday": false,
+  "wednesday": false,
+  "thursday": false,
+  "friday": false,
+  "saturday": false,
+  "sunday": false,
+  "intervalHours": 0,
+  "intervalStartTime": "00:00",
+  "cycleOnDays": 0,
+  "cycleOffDays": 0
 }

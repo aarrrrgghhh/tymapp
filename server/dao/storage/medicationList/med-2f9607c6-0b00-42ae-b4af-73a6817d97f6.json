@@ -1,0 +1,22 @@
+{
+  "medicationId": "med-2f9607c6-0b00-42ae-b4af-73a6817d97f6",
+  "brandName": "Methotrexat \"Ebewe\"",
+  "genericName": "Methotrexate",
+  "dosageStrengthValue": 2.5,
+  "dosageStrengthUnit": "mg",
+  "personalDosageValue": 5,
+  "personalDosageUnit": "mg",
+  "scheduleType": "WEEKLY",
+  "createdAt": "2026-05-26T10:30:20.164Z",
+  "monday": false,
+  "tuesday": false,
+  "wednesday": false,
+  "thursday": true,
+  "friday": false,
+  "saturday": false,
+  "sunday": false,
+  "reminderTimes": [
+    "08:30",
+    "18:30"
+  ]
+}

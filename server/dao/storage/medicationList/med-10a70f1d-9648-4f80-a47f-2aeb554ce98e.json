@@ -1,0 +1,25 @@
+{
+  "medicationId": "med-10a70f1d-9648-4f80-a47f-2aeb554ce98e",
+  "brandName": "Novynette",
+  "genericName": "Hormonal contraceptives",
+  "dosageStrengthValue": 150,
+  "dosageStrengthUnit": "µg",
+  "personalDosageValue": 150,
+  "personalDosageUnit": "µg",
+  "scheduleType": "CYCLE",
+  "createdAt": "2026-05-26T10:31:57.514Z",
+  "cycleOnDays": 21,
+  "cycleOffDays": 7,
+  "reminderTimes": [
+    "19:45"
+  ],
+  "monday": false,
+  "tuesday": false,
+  "wednesday": false,
+  "thursday": false,
+  "friday": false,
+  "saturday": false,
+  "sunday": false,
+  "intervalHours": 0,
+  "intervalStartTime": "00:00"
+}

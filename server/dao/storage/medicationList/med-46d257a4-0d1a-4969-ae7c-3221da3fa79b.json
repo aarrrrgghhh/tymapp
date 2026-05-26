@@ -1,0 +1,21 @@
+{
+  "medicationId": "med-46d257a4-0d1a-4969-ae7c-3221da3fa79b",
+  "brandName": "Vitamin D3",
+  "genericName": "Cholekalciferol",
+  "dosageStrengthValue": 4000,
+  "dosageStrengthUnit": "IU",
+  "personalDosageValue": 4000,
+  "personalDosageUnit": "IU",
+  "scheduleType": "WEEKLY",
+  "createdAt": "2026-05-26T10:41:01.808Z",
+  "monday": false,
+  "tuesday": true,
+  "wednesday": false,
+  "thursday": true,
+  "friday": false,
+  "saturday": true,
+  "sunday": false,
+  "reminderTimes": [
+    "07:45"
+  ]
+}

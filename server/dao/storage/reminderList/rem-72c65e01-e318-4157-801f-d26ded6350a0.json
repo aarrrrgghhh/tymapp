@@ -1,0 +1,7 @@
+{
+  "notificationId": "rem-72c65e01-e318-4157-801f-d26ded6350a0",
+  "medicationId": "med-10a70f1d-9648-4f80-a47f-2aeb554ce98e",
+  "scheduledDateTime": "2026-05-31T17:45:00.000Z",
+  "status": "UPCOMING",
+  "calculatedPills": 1
+}
